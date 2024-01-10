@@ -2,7 +2,7 @@ import {React ,useEffect, useState } from "react";
 
 export function Request () {
 	
-	const [peticion,setPeticion] = useState('cargando...')
+	const [peticion,setPeticion] = useState('cargando... ')
 
     const url = 'https://dog-facts2.p.rapidapi.com/facts';
     const options = {
@@ -13,12 +13,14 @@ export function Request () {
 		}
 	};
 	useEffect(()=> {
-
-			fetch(url, options)
-			.then(data => data.json())
-			.then(data => setPeticion(data.facts));
+		async function fetchData() {
+			const peticion = await fetch(url, options)
 			console.log(peticion)
-
+			const resultado = await peticion.json()
+			console.log(resultado)
+			setPeticion(resultado.facts)
+		}
+		fetchData();
 	}, [])
 	
 	return (
